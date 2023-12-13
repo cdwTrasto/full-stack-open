@@ -173,3 +173,149 @@ Puedes utilizar fragmentos de dos formas en React:
    ```
 
 Ambos enfoques son equivalentes y permiten agrupar elementos adyacentes sin agregar un nodo contenedor al DOM. Los fragmentos son especialmente útiles cuando necesitas devolver una lista de elementos o componentes sin introducir elementos adicionales en la estructura del DOM.
+
+## var, let y const
+
+En JavaScript, `var`, `let` y `const` son palabras clave utilizadas para declarar variables, pero tienen diferencias importantes en cuanto a su alcance, reasignación y comportamiento de inmutabilidad:
+
+1. **`var`**:
+   - Variables declaradas con `var` tienen un alcance de función, lo que significa que son visibles en toda la función en la que se declaran, incluso antes de la declaración (esto se conoce como "hoisting").
+   - Pueden ser reasignadas y modificadas después de su declaración.
+   - No tienen bloque de alcance, lo que significa que son visibles incluso fuera de bloques de control como `if` o `for`.
+   - `var` no es constante; su valor puede cambiar a lo largo del tiempo.
+
+Ejemplo:
+
+```javascript
+function ejemploVar() {
+  if (true) {
+    var x = 10;
+  }
+  console.log(x); // 10, porque x está disponible en todo el alcance de la función
+}
+```
+
+2. **`let`**:
+   - Variables declaradas con `let` tienen un alcance de bloque, lo que significa que solo son visibles dentro del bloque en el que se declaran.
+   - Pueden ser reasignadas, pero no pueden ser redeclaradas en el mismo bloque.
+   - `let` es más seguro que `var` en cuanto al manejo de alcance.
+   - `let` no es constante; su valor puede cambiar.
+
+Ejemplo:
+
+```javascript
+function ejemploLet() {
+  if (true) {
+    let y = 20;
+  }
+  console.log(y); // Error: y no está definida fuera del bloque if
+}
+```
+
+3. **`const`**:
+   - Variables declaradas con `const` también tienen alcance de bloque, al igual que `let`.
+   - Sin embargo, una vez que se les asigna un valor, no pueden ser reasignadas. Son inmutables.
+   - Deben inicializarse con un valor cuando se declaran, y este valor no puede cambiar posteriormente.
+   - `const` es útil cuando deseas asegurarte de que una variable no cambie de valor accidentalmente.
+
+Ejemplo:
+
+```javascript
+function ejemploConst() {
+  const z = 30;
+  z = 40; // Error: no puedes reasignar una variable constante
+}
+```
+
+La elección entre `var`, `let` y `const` depende del alcance y la mutabilidad que necesitas para una variable en particular en tu código. Es una buena práctica utilizar `const` siempre que sea posible para garantizar la inmutabilidad y usar `let` cuando necesitas variables que puedan cambiar de valor. Se recomienda evitar `var` en favor de `let` y `const`, ya que `var` puede llevar a comportamientos inesperados debido a su alcance de función y hoisting.
+
+## JS arrays
+
+En JavaScript, cuando declaras un array utilizando `const`, la variable que contiene el array es constante en el sentido de que no se puede reasignar a otro valor o a otro tipo de dato. Sin embargo, el contenido del array en sí puede ser modificado, a pesar de que la variable que lo contiene sea una constante. Esto puede resultar en una fuente de confusión para algunas personas.
+
+Cuando declaras un array con `const`, lo que realmente está siendo constante es la referencia al array en la variable, no el contenido del array ni la estructura del array en sí. Esto significa que puedes agregar, eliminar o modificar elementos dentro del array sin violar la constante `const` de la variable.
+
+Ejemplo:
+
+```javascript
+const miArray = [1, 2, 3];
+miArray.push(4); // Modifica el contenido del array, pero no la variable miArray
+console.log(miArray); // [1, 2, 3, 4]
+```
+
+En este ejemplo, la variable `miArray` es constante y no se puede reasignar a otro valor o tipo de dato, pero aún así puedes modificar su contenido.
+
+Si deseas que el contenido del array sea inmutable (no pueda modificarse), puedes utilizar técnicas como la programación funcional o utilizar bibliotecas como Immutable.js para trabajar con estructuras de datos inmutables.
+
+## Destructuring assignment
+
+El "destructuring assignment" (o "asignación por desestructuración") en JavaScript es una característica que permite descomponer (o desestructurar) valores de objetos o arrays en variables individuales de una manera más concisa y conveniente. Esta característica se utiliza para extraer valores de estructuras de datos de manera más eficiente en comparación con el acceso directo a través de la notación de puntos o corchetes.
+
+La sintaxis básica del destructuring assignment en JavaScript se ve así:
+
+### Destructuring de objetos:
+
+```javascript
+const { propiedad1, propiedad2 } = objeto;
+```
+
+Donde `propiedad1` y `propiedad2` son las variables en las que se almacenarán los valores de las propiedades correspondientes del objeto.
+
+### Destructuring de arrays:
+
+```javascript
+const [ elemento1, elemento2 ] = array;
+```
+
+Donde `elemento1` y `elemento2` son las variables en las que se almacenarán los valores de los elementos correspondientes del array.
+
+Ejemplos:
+
+**Destructuring de objetos:**
+
+```javascript
+const persona = { nombre: 'Alice', edad: 30 };
+
+const { nombre, edad } = persona;
+
+console.log(nombre); // 'Alice'
+console.log(edad);   // 30
+```
+
+**Destructuring de arrays:**
+
+```javascript
+const numeros = [1, 2, 3, 4, 5];
+
+const [primerNumero, segundoNumero] = numeros;
+
+console.log(primerNumero); // 1
+console.log(segundoNumero); // 2
+```
+
+El destructuring assignment es especialmente útil cuando trabajas con funciones que devuelven objetos o arrays, ya que puedes extraer valores específicos directamente en variables. También es comúnmente utilizado en React para desestructurar las props o el estado en componentes funcionales.
+
+Además de la sintaxis básica, el destructuring assignment también admite valores por defecto, alias y desestructuración anidada, lo que lo hace una característica versátil y poderosa en JavaScript.
+
+## Object literals
+
+Los "object literals" (también llamados "objetos literales" en español) son una notación de JavaScript que te permite crear objetos de forma concisa y legible. Un objeto literal se define utilizando llaves `{}` y contiene una lista de pares de clave-valor separados por dos puntos `:`. Cada par clave-valor representa una propiedad y su valor correspondiente dentro del objeto.
+
+Aquí tienes un ejemplo básico de un objeto literal:
+
+```javascript
+const persona = {
+  nombre: 'Alice',
+  edad: 30,
+  ciudad: 'Ejemploville'
+};
+```
+
+En este ejemplo, `persona` es un objeto literal que tiene tres propiedades: `nombre`, `edad` y `ciudad`. Puedes acceder a las propiedades de un objeto utilizando la notación de punto, por ejemplo: `persona.nombre` para acceder al nombre de la persona.
+
+Puedes agregar nuevas propiedades o modificar las existentes en un objeto literal de la siguiente manera:
+
+```javascript
+persona.email = 'alice@example.com'; // Agregar una nueva propiedad
+persona.edad = 31; // Modificar una propiedad existente
+```
