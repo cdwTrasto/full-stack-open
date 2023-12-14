@@ -402,3 +402,218 @@ En JavaScript, hay varias formas de crear funciones.
 Es importante mencionar que las funciones de flecha (`=>`) tienen algunas diferencias de comportamiento con respecto a las funciones definidas con `function`, especialmente en lo que respecta al valor de `this`. Las funciones de flecha no tienen su propio `this` y toman el valor del `this` en el contexto en el que se definen, lo que puede ser útil en ciertos casos.
 
 En general, las funciones de flecha son la elección común para definir funciones en el código moderno de JavaScript debido a su sintaxis más concisa y a su comportamiento predecible de `this`. Sin embargo, las funciones definidas con `function` todavía se utilizan en muchas situaciones, especialmente en el código más antiguo o en casos donde el comportamiento de `this` es importante.
+
+## Métodos de objeto y "this"
+
+En JavaScript, los métodos de objetos son funciones que están asociadas a un objeto específico y pueden acceder y manipular los datos de ese objeto. En el contexto de un método de objeto, la palabra clave `this` se utiliza para hacer referencia al propio objeto al que pertenece el método.
+
+1. **Definición de métodos de objeto:**
+
+   Puedes asignar métodos a un objeto definiendo propiedades que son funciones. Por ejemplo:
+
+   ```javascript
+   const arto = {
+     name: 'Arto Hellas',
+     age: 35,
+     education: 'PhD', 
+     greet: function() {
+       console.log('hello, my name is ' + this.name);
+     },
+   };
+   ```
+
+   En este ejemplo, `greet` es un método del objeto `arto`. Puedes llamar al método usando `arto.greet()`.
+
+2. **Asignar métodos a objetos después de la creación:**
+
+   También puedes asignar métodos a un objeto incluso después de haber creado el objeto. Por ejemplo:
+
+   ```javascript
+   arto.growOlder = function() {
+     this.age += 1;
+   };
+   ```
+
+   En este caso, hemos agregado un método `growOlder` al objeto `arto`. Puedes llamar a este método usando `arto.growOlder()`.
+
+3. **El valor de `this` en métodos de objetos:**
+
+   La palabra clave `this` se utiliza en métodos de objetos para hacer referencia al objeto al que pertenece el método. Cuando llamas a un método en un objeto, `this` se refiere a ese objeto. Por ejemplo, cuando llamamos `arto.greet()`, `this` dentro de la función `greet` se refiere a `arto`, por lo que puede acceder a la propiedad `name` de `arto`.
+
+4. **Problemas con `this` al utilizar referencias a métodos:**
+
+   Sin embargo, existe un problema cuando se utiliza una referencia a un método en lugar de llamar al método directamente. Por ejemplo:
+
+   ```javascript
+   const referenceToGreet = arto.greet;
+   referenceToGreet(); // imprime "hello, my name is undefined"
+   ```
+
+   En este caso, cuando llamamos `referenceToGreet()`, `this` dentro de la función `greet` ya no se refiere a `arto`. En su lugar, se refiere al "objeto global" (en un entorno de navegador, esto sería el objeto `window`). Como resultado, `this.name` se convierte en `undefined`.
+
+5. **Preservar `this` usando `bind`:**
+
+   Para preservar el valor de `this` en métodos de objetos al utilizar referencias a métodos, puedes utilizar el método `bind`. Por ejemplo:
+
+   ```javascript
+   setTimeout(arto.greet.bind(arto), 1000);
+   ```
+
+   Al hacer esto, creamos una nueva función donde `this` está vinculado a `arto`, independientemente de cómo y dónde se llame al método. En este caso, `this` dentro de `greet` seguirá haciendo referencia a `arto`.
+
+https://egghead.io/courses/understand-javascript-s-this-keyword-in-depth
+
+## Clases
+
+En JavaScript, la sintaxis de clases fue introducida con ECMAScript 6 (ES6) y proporciona una forma más estructurada y orientada a objetos para definir y crear objetos. A pesar de que JavaScript es un lenguaje basado en prototipos, la sintaxis de clases se utiliza comúnmente en el desarrollo moderno, especialmente en bibliotecas y marcos como React.
+
+Aquí hay una explicación basada en el texto que proporcionaste sobre cómo se usan las clases en JavaScript:
+
+1. **Definición de una clase:**
+
+   Puedes definir una clase en JavaScript utilizando la palabra clave `class`, seguida del nombre de la clase. Por ejemplo:
+
+   ```javascript
+   class Person {
+     constructor(name, age) {
+       this.name = name;
+       this.age = age;
+     }
+
+     greet() {
+       console.log('hello, my name is ' + this.name);
+     }
+   }
+   ```
+
+   En este ejemplo, hemos definido una clase llamada `Person`. La clase tiene un constructor que inicializa las propiedades `name` y `age`, y un método `greet` que imprime un mensaje.
+
+2. **Crear objetos a partir de una clase:**
+
+   Puedes crear objetos a partir de una clase utilizando la palabra clave `new`. Por ejemplo:
+
+   ```javascript
+   const adam = new Person('Adam Ondra', 29);
+   adam.greet();
+
+   const janja = new Person('Janja Garnbret', 23);
+   janja.greet();
+   ```
+
+   Aquí, hemos creado dos objetos `adam` y `janja` a partir de la clase `Person` utilizando `new`. Luego, llamamos al método `greet` en cada objeto para imprimir un saludo personalizado.
+
+3. **Herencia y prototipos:**
+
+   Aunque la sintaxis de clases en JavaScript parece similar a la de otros lenguajes de programación orientados a objetos, es importante comprender que en el fondo, JavaScript sigue siendo un lenguaje basado en prototipos. Las clases en JavaScript se traducen en prototipos y herencia de prototipos.
+
+4. **Uso en React:**
+
+   La sintaxis de clases se utilizó ampliamente en versiones anteriores de React para definir componentes de clase. Sin embargo, a partir de React 16.8, se introdujeron los "Hooks", lo que permitió escribir componentes funcionales en lugar de componentes de clase. A pesar de eso, el conocimiento de las clases en JavaScript es útil al trabajar con código React más antiguo y al comprender cómo funcionan los componentes en general.
+
+## Hoisting
+
+El "hoisting" es un comportamiento en JavaScript en el que las declaraciones de variables y funciones se mueven al principio del alcance en el que están definidas durante la fase de compilación. Sin embargo, es importante entender que solo la declaración en sí misma es hoisted (elevada), no la inicialización de la variable o la asignación de valor. El comportamiento de hoisting puede conducir a resultados sorprendentes, especialmente cuando se usan `const` y `let`.
+
+```javascript
+function foo(x, condition) {
+  if (condition) {
+    console.log(x); // Esto arrojará un error "Cannot access 'x' before initialization"
+    const x = 2;
+    console.log(x);
+  }
+}
+
+foo(1, true);
+```
+
+Explicación del ejemplo:
+
+1. La función `foo` recibe dos parámetros: `x` y `condition`.
+
+2. Dentro del bloque `if`, se intenta acceder a `x` en el primer `console.log(x)` antes de que se declare e inicialice.
+
+3. Aunque la declaración `const x = 2;` está presente después del primer `console.log(x)`, la variable `x` es hoisted al principio del bloque `if`. Sin embargo, como `const` y `let` no se inicializan con un valor predeterminado como `var`, `x` entra en una "zona temporal muerta" (temporal dead zone) antes de su declaración en el código, lo que genera un error "Cannot access 'x' before initialization".
+
+4. El segundo `console.log(x)` se ejecuta correctamente después de la declaración e inicialización de `x` con el valor `2`.
+
+Este ejemplo demuestra cómo las declaraciones `const` y `let` son hoisted al principio de su alcance, pero no se pueden acceder antes de su declaración en el código debido a la "zona temporal muerta".
+
+Ejemplo con `var`:
+
+```javascript
+function foo(condition) {
+  if (condition) {
+    console.log(x); // Imprime "undefined"
+    var x = 2;
+    console.log(x);
+  }
+}
+
+foo(true);
+```
+
+Explicación:
+
+1. La declaración `var x` se hoista al principio del bloque `if`, y `x` se inicializa automáticamente con `undefined`.
+
+2. El primer `console.log(x)` imprime `undefined`, ya que `x` se ha declarado y está disponible en ese punto.
+
+Ejemplo con función:
+
+```javascript
+function foo() {
+  console.log(myFunction()); // Imprime "Hola desde la función"
+  
+  function myFunction() {
+    return "Hola desde la función";
+  }
+}
+
+foo();
+```
+
+Explicación:
+
+1. La función `myFunction` se declara dentro de la función `foo`, y ambas se ven afectadas por el hoisting.
+
+2. La llamada a `myFunction()` se realiza antes de la declaración real de `myFunction`, pero JavaScript permite esto debido al hoisting. La función está disponible en ese punto y se ejecuta correctamente.
+
+En resumen, el hoisting es un comportamiento en JavaScript en el que las declaraciones se mueven al principio de su alcance durante la fase de compilación, pero es importante tener en cuenta las diferencias entre `var`, `const`, `let` y las funciones en cuanto a cómo se comportan en relación con el hoisting y la "zona temporal muerta".
+
+
+
+## for...of
+
+`for...of` es una estructura de bucle que se utiliza para iterar sobre valores iterables, como matrices (arrays), cadenas (strings), mapas (maps), conjuntos (sets), entre otros. Permite recorrer los elementos del iterable en orden secuencial y acceder directamente al valor de cada elemento en cada iteración.
+
+Ejemplo de uso de `for...of` con una matriz:
+
+```javascript
+javascriptCopy codeconst fruits = ['apple', 'banana', 'cherry'];
+
+for (const fruit of fruits) {
+  console.log(fruit); // Imprime cada elemento de la matriz en orden
+}
+```
+
+En este caso, `fruit` toma el valor de cada elemento de la matriz `fruits` en cada iteración.
+
+## for...in
+
+`for...in`, por otro lado, se utiliza para iterar sobre las propiedades enumerables de un objeto. En cada iteración, `for...in` proporciona el nombre de la propiedad o clave, lo que significa que se utiliza principalmente para objetos y no para iterar elementos en orden secuencial.
+
+Ejemplo de uso de `for...in` con un objeto:
+
+```javascript
+javascriptCopy codeconst person = {
+  name: 'John',
+  age: 30,
+  city: 'New York'
+};
+
+for (const key in person) {
+  console.log(key + ': ' + person[key]); // Imprime cada propiedad y su valor
+}
+```
+
+En este caso, `key` contiene el nombre de cada propiedad del objeto `person`, y `person[key]` accede al valor de cada propiedad.
