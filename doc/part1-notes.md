@@ -319,3 +319,86 @@ Puedes agregar nuevas propiedades o modificar las existentes en un objeto litera
 persona.email = 'alice@example.com'; // Agregar una nueva propiedad
 persona.edad = 31; // Modificar una propiedad existente
 ```
+
+A partir de ECMAScript 6 (también conocido como ES6), JavaScript introdujo la sintaxis de clases para crear objetos y definir estructuras de código orientadas a objetos de manera más conveniente y legible.
+
+```javascript
+javascriptCopy codeclass Persona {
+  constructor(nombre, edad) {
+    this.nombre = nombre;
+    this.edad = edad;
+  }
+
+  saludar() {
+    console.log(`Hola, mi nombre es ${this.nombre} y tengo ${this.edad} años.`);
+  }
+}
+
+// Crear objetos a partir de la clase
+const persona1 = new Persona('Alice', 30);
+const persona2 = new Persona('Bob', 25);
+
+// Llamar a métodos de la clase en los objetos
+persona1.saludar(); // Hola, mi nombre es Alice y tengo 30 años.
+persona2.saludar(); // Hola, mi nombre es Bob y tengo 25 años.
+```
+
+Las clases en JavaScript proporcionan un mecanismo para crear objetos con propiedades y métodos, lo que facilita la organización y la reutilización de código. Son una parte fundamental de la programación orientada a objetos en JavaScript y se utilizan ampliamente en aplicaciones modernas.
+
+## Funciones
+
+En JavaScript, hay varias formas de crear funciones.
+
+1. **Funciones con la sintaxis de flecha (Arrow Functions):**
+
+   Las funciones de flecha son una forma moderna y concisa de definir funciones en JavaScript, especialmente útiles para funciones simples. Aquí tienes ejemplos:
+
+   - Función con múltiples parámetros:
+     ```javascript
+     const sum = (p1, p2) => {
+       return p1 + p2;
+     };
+     ```
+
+   - Función con un solo parámetro (puedes omitir los paréntesis):
+     ```javascript
+     const square = p => {
+       return p * p;
+     };
+     ```
+
+   - Función con una sola expresión (puedes omitir las llaves y la declaración `return`):
+     ```javascript
+     const square = p => p * p;
+     ```
+
+   - Función sin parámetros (usa paréntesis vacíos):
+     ```javascript
+     const sayHello = () => {
+       console.log("Hola");
+     };
+     ```
+
+2. **Funciones definidas con la palabra clave `function`:**
+
+   Antes de la introducción de las funciones de flecha (ES6), las funciones se definían utilizando la palabra clave `function`. Aquí tienes ejemplos:
+
+   - Función declarada:
+     ```javascript
+     function product(a, b) {
+       return a * b;
+     }
+     ```
+
+   - Función anónima (función expresión):
+     ```javascript
+     const average = function(a, b) {
+       return (a + b) / 2;
+     };
+     ```
+
+   Las funciones definidas con `function` pueden ser declaradas (como en el primer ejemplo) o expresadas (como en el segundo ejemplo).
+
+Es importante mencionar que las funciones de flecha (`=>`) tienen algunas diferencias de comportamiento con respecto a las funciones definidas con `function`, especialmente en lo que respecta al valor de `this`. Las funciones de flecha no tienen su propio `this` y toman el valor del `this` en el contexto en el que se definen, lo que puede ser útil en ciertos casos.
+
+En general, las funciones de flecha son la elección común para definir funciones en el código moderno de JavaScript debido a su sintaxis más concisa y a su comportamiento predecible de `this`. Sin embargo, las funciones definidas con `function` todavía se utilizan en muchas situaciones, especialmente en el código más antiguo o en casos donde el comportamiento de `this` es importante.
