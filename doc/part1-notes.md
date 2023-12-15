@@ -924,3 +924,40 @@ Es importante destacar que el núcleo del lenguaje JavaScript no especifica ning
 En JavaScript, las promesas son una parte fundamental de la programación asincrónica y se utilizan comúnmente para gestionar operaciones que pueden llevar tiempo. Las promesas no bloquean el hilo principal; solo retrasan la ejecución de la lógica que depende de su resultado. Esto permite que otras partes de la aplicación sigan funcionando sin problemas.
 
 Si tienes un valor asincrónico, no puedes acceder a su valor de forma sincrónica. Debes utilizar métodos como `then()` o `await` para obtener el resultado cuando esté disponible.
+
+## React's state hook
+
+El State Hook en React es una característica que te permite agregar estado a los componentes funcionales. Antes de la introducción de Hooks en React, los componentes funcionales no tenían una forma incorporada de gestionar el estado local. Con el State Hook, ahora puedes utilizar el estado en componentes funcionales de una manera sencilla y efectiva.
+
+El State Hook se llama `useState`, y puedes importarlo desde la librería React:
+
+```react
+import React, { useState } from 'react';
+```
+
+La función `useState` devuelve un par de valores: el estado actual y una función para actualizar ese estado. Aquí hay un ejemplo simple de cómo se utiliza:
+
+```react
+import React, { useState } from 'react';
+
+function Counter() {
+  // Declarar una variable de estado llamada "count" con un valor inicial de 0
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <button onClick={() => setCount(count - 1)}>Decrement</button>
+    </div>
+  );
+}
+
+export default Counter;
+```
+
+En este ejemplo, hemos creado un componente `Counter` que utiliza el State Hook. La función `useState(0)` inicializa una variable de estado llamada `count` con un valor inicial de `0`. Luego, mostramos el valor de `count` en el componente y proporcionamos botones que permiten incrementar y decrementar su valor utilizando la función `setCount`.
+
+Cuando se hace clic en uno de los botones, se llama a `setCount` con el nuevo valor deseado para `count`, y React se encarga de actualizar la representación en pantalla del componente de acuerdo con el nuevo estado.
+
+El State Hook es una forma poderosa y conveniente de gestionar el estado local en los componentes funcionales de React. Puedes utilizar múltiples llamadas a `useState` para gestionar varios valores de estado en un solo componente. Además, el uso de Hooks te permite reutilizar la lógica de estado en diferentes componentes funcionales sin necesidad de clases.
